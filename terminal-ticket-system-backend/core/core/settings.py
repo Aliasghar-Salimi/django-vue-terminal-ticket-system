@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     # internal apps
     'account.apps.AccountConfig',
-    'cooperatives.apps.CooperativesConfig'
+    'cooperatives.apps.CooperativesConfig',
+    'vehicles.apps.VehiclesConfig',
 ]
 
 MIDDLEWARE = [

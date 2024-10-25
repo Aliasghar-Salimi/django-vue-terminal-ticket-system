@@ -9,10 +9,8 @@ class CooperativesSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        # Check if the context has the request and if the method is GET
         request = self.context.get('request')
         if request and request.method == 'GET':
-            # For GET requests, include all fields
             self.fields.update({
                 'headquarter_address': serializers.CharField(),
                 'phone_number': serializers.CharField(),
