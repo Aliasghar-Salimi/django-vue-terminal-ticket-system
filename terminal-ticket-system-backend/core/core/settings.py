@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'cooperatives.apps.CooperativesConfig',
     'vehicles.apps.VehiclesConfig',
+    'travels.apps.TravelsConfig',
 ]
 
 MIDDLEWARE = [

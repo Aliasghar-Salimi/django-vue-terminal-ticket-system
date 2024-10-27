@@ -3,7 +3,7 @@ from cooperatives.models import Cooperatives
 from django.utils.text import slugify
 
 class Vehicles(models.Model):
-    cooperative = models.ForeignKey(Cooperatives, on_delete=models.SET_NULL, null=True)
+    cooperative = models.ForeignKey(Cooperatives, on_delete=models.CASCADE)
     licanse_plate = models.CharField(max_length=10, unique=True, null=True, blank=True)
     model = models.IntegerField()
     capacity = models.SmallIntegerField()
