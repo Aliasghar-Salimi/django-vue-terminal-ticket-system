@@ -11,11 +11,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=100, null=True, blank=True)
     phone_number = models.CharField(max_length=12, unique=True, validators=[phone_validator])
     email = models.CharField(max_length=254, validators=[validate_email], null=True, blank=True)
+    national_code = models.IntegerField(unique=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    
+    slug = models.SlugField(max_length=255, unique=True)
+
     USERNAME_FIELD = "phone_number"
     REQUIRED_FIELDS = []
 
