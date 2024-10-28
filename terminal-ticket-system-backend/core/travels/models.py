@@ -25,13 +25,12 @@ class Travels(models.Model):
         'canceled':'canceled'
     }
     cooperative = models.ForeignKey(Cooperatives, on_delete=models.CASCADE)
-    destination = models.ForeignKey(Cities, on_delete=models.CASCADE)
+    destination = models.CharField(max_length=255)
     vehicle = models.ForeignKey(Vehicles, on_delete=models.CASCADE)
     departure_time = models.DateTimeField()
     status = models.CharField(max_length=128, choices=status_choices, default='scheduled')
     ticket_price = models.IntegerField()
     total_seats = models.SmallIntegerField()
-    # booked_seats = models.SmallIntegerField(null=True)
     slug = models.SlugField(unique=True, max_length=255)
 
     class Meta:

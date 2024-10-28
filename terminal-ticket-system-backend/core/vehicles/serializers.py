@@ -4,7 +4,7 @@ from rest_framework import serializers
 class VehiclesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicles
-        fields = ['id', 'cooperative', 'model', 'vehicle_type', 'capacity']
+        fields = ['id', 'cooperative', 'model', 'vehicle_type', 'capacity', 'license_plate']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -13,7 +13,7 @@ class VehiclesSerializer(serializers.ModelSerializer):
         if request and request.method == 'GET':
             self.fields.update({'slug': serializers.CharField(), 
                                 'color': serializers.CharField(),
-                                'licanse_plate': serializers.CharField(),
+                                'license_plate': serializers.CharField(),
                                 })
             
 class DriversSerializer(serializers.ModelSerializer):
