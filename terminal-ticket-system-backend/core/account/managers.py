@@ -10,6 +10,11 @@ class CustomUserManager(BaseUserManager):
     def create_user(self, phone_number, password, **extra_fields):
         email = extra_fields.get('email')
 
+        if not phone_number:
+            raise ValueError("the phone number must be set")
+        if not password:
+            raise ValueError("the password must be set")
+
         extra_fields.setdefault('is_active', True)
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)

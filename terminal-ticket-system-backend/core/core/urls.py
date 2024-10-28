@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/v1/', include('cooperatives.urls')),
     path('api/v1/', include('vehicles.urls')),
     path('api/v1/', include('travels.urls')),
+    path('api/v1/auth/', include('account.urls')),
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth/', include('djoser.urls.jwt'))
 ]
