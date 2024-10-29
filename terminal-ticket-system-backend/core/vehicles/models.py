@@ -33,7 +33,7 @@ class Drivers(models.Model):
     cooperative = models.ForeignKey(Cooperatives, on_delete=models.SET_NULL, null=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    vehicle = models.ManyToManyField(Vehicles, on_delete=models.SET_NULL, null=True)
+    vehicle = models.ManyToManyField(Vehicles)
     national_code = models.IntegerField(unique=True)
     age = models.IntegerField(null=True, blank=True)
     license_number = models.IntegerField(unique=True , null=True, blank=True)

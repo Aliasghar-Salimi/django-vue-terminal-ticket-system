@@ -1,23 +1,14 @@
-from .models import Cities
-from .serializers import CitiesSerializer, TravelsSerializer
+from .serializers import TravelsSerializer
 from rest_framework import generics, filters
-
-class CitiesList(generics.ListCreateAPIView):
-    queryset = Cities.objects.all()
-    serializer_class = CitiesSerializer
-
-class CityDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Cities.objects.all()
-    serializer_class = CitiesSerializer
-    lookup_field = "slug"
+from .models import Travels
 
 class TravelsList(generics.ListCreateAPIView):
-    queryset = Cities.objects.all()
+    queryset = Travels.objects.all()
     serializer_class = TravelsSerializer
     search_fields = ['destination']
     filter_backends = [filters.SearchFilter]
 
 class TravelDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Cities.objects.all()
+    queryset = Travels.objects.all()
     serializer_class = TravelsSerializer
     lookup_field = "slug"

@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'cooperatives.apps.CooperativesConfig',
     'vehicles.apps.VehiclesConfig',
     'travels.apps.TravelsConfig',
+    'reservations.apps.ReservationsConfig',
 ]
 
 MIDDLEWARE = [

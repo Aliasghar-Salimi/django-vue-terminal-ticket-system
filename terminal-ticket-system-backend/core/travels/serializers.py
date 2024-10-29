@@ -1,11 +1,6 @@
-from .models import Cities, Travels
+from .models import Travels
 from rest_framework import serializers
 
-
-class CitiesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Cities
-        fields = ['id', 'name']
 
 class TravelsSerializer(serializers.ModelSerializer):
     class Meta:
