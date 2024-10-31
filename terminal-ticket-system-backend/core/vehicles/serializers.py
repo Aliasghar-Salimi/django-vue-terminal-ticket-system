@@ -1,4 +1,4 @@
-from .models import Vehicles, Drivers
+from .models import Vehicles
 from rest_framework import serializers
 
 class VehiclesSerializer(serializers.ModelSerializer):
@@ -16,7 +16,3 @@ class VehiclesSerializer(serializers.ModelSerializer):
                                 'license_plate': serializers.CharField(),
                                 })
             
-class DriversSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Drivers
-        fields = ['id', 'first_name', 'last_name', 'cooperative', 'vehicle', 'national_code']
