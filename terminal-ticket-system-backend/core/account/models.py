@@ -26,8 +26,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = "User"
-        verbose_name = "کاربر"
-        verbose_name_plural = "کاربران"
+        verbose_name = "user"
+        verbose_name_plural = "users"
 
 
     def __str__(self):

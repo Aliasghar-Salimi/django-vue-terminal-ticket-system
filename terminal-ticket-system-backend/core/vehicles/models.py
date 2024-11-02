@@ -1,9 +1,11 @@
 from django.db import models
 from cooperatives.models import Cooperatives
 from django.utils.text import slugify
+from account.models import User
 
 class Vehicles(models.Model):
     cooperative = models.ForeignKey(Cooperatives, on_delete=models.CASCADE)
+    driver = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     license_plate = models.CharField(max_length=10, unique=True)
     model = models.IntegerField()
     capacity = models.SmallIntegerField()
