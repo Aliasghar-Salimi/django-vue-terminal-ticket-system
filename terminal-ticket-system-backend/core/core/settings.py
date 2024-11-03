@@ -60,6 +60,11 @@ INSTALLED_APPS = [
     'reservations.apps.ReservationsConfig',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -148,25 +153,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 #rest auth settings 
-# REST_AUTH = {
-#     'USE_JWT': True,
-#     'JWT_AUTH_COOKIE': 'ticketsystem_jwtcookie',
-#     'JWT_AUTH_REFRESH_COOKIE': 'ticketsystem_jwtrefreshcookie', 
-# } 
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_COOKIE': 'ticketsystem_jwtcookie',
+    'JWT_AUTH_REFRESH_COOKIE': 'ticketsystem_jwtrefreshcookie', 
+} 
 
 REST_FRAMEWORK = {
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
-    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
     ],
 }
 
 SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': (
-        'Bearer',
-        'JWT'),
+    'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=60),
     'SIGNING_KEY': 'hUQnABTQfe38uRu05JZ849UedeVwPzCj',

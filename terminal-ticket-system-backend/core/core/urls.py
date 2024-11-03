@@ -16,7 +16,7 @@ urlpatterns = [
     path('api/token/refrash/', TokenRefreshView.as_view(), name='token-refresh'),
 
     # internal apis
-    path('api-auth/', include('rest_framework.urls')),
+    # path('api-auth/', include('rest_framework.urls')),
     path('api/v1/', include('cooperatives.urls')),
     path('api/v1/', include('vehicles.urls')),
     path('api/v1/', include('travels.urls')),
@@ -24,6 +24,6 @@ urlpatterns = [
     path('api/v1/accounts/', include('account.urls')),
 
     # djoser apis
-    path('api/v1/auth/', include('djoser.urls')),
-    path('api/v1/auth/', include('djoser.urls.jwt'))
+    # path('api/v1/auth/', include('djoser.urls')),
+    # path('api/v1/auth/', include('djoser.urls.jwt'))
 ]

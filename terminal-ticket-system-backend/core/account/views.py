@@ -1,12 +1,20 @@
 from django.shortcuts import render
 from account.models import User
-from .serializers import CreateUserSerializer, GroupSerializer, PermissionSerializer
+from .serializers import CreateUserSerializer, GroupSerializer, PermissionSerializer, UserSerializer
 from rest_framework import generics, filters
 from django.contrib.auth.models import Group, Permission
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+
+class UsersList(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    search_fields = ['id', 'first_name', 'last_name', 'national_code', 'phone_number']
+    filter_backends = [filters.SearchFilter]
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
-    serializer_class = CreateUserSerializer
+    serializer_class = UserSerializer
     lookup_field = "slug"
 
 class GroupsList(generics.ListCreateAPIView):
