@@ -6,7 +6,6 @@ from django.contrib.auth.models import Group, Permission
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 class UsersList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
     serializer_class = UserSerializer
     search_fields = ['id', 'first_name', 'last_name', 'national_code', 'phone_number']

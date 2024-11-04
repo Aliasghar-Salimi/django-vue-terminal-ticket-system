@@ -3,6 +3,32 @@ from django.utils.text import slugify
 from cooperatives.models import Cooperatives
 from vehicles.models import Vehicles
 
+
+class Provinces(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'Province'
+        verbose_name = 'province'
+        verbose_name_plural = 'provinces'
+
+
+class Cities(models.Model):
+    province = models.ForeignKey(Provinces, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'City'
+        verbose_name = 'city'
+        verbose_name_plural = 'cities'
+
+
 class Travels(models.Model):
     status_choices = {
         'scheduled':'scheduled',
@@ -10,7 +36,8 @@ class Travels(models.Model):
         'completed': 'completed',
     }
     cooperative = models.ForeignKey(Cooperatives, on_delete=models.CASCADE)
-    destination = models.CharField(max_length=255)
+    province = models.OneToOneField(Provinces, on_delete=models.CASCADE)
+    city = models.OneToOneField(Cities, on_delete=models.CASCADE)
     vehicle = models.ForeignKey(Vehicles, on_delete=models.CASCADE)
     departure_time = models.DateTimeField()
     status = models.CharField(max_length=128, choices=status_choices, default='scheduled')
@@ -30,5 +57,3 @@ class Travels(models.Model):
         self.total_seats = self.vehicle.capacity
         self.slug = slugify(f"{self.destination.name}-{self.vehicle.vehicle_type}", allow_unicode=True)
         super(Travels, self).save(*args, **kwargs)
-
-
