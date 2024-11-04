@@ -8,11 +8,11 @@ from django.utils.text import slugify
 # Create your models here.
 
 class User(AbstractBaseUser, PermissionsMixin):
-    first_name = models.CharField(max_length=60, null=True, blank=True)
-    last_name = models.CharField(max_length=100, null=True, blank=True)
+    first_name = models.CharField(max_length=60, null=True)
+    last_name = models.CharField(max_length=100, null=True)
     phone_number = models.CharField(max_length=12, unique=True, validators=[phone_validator])
-    email = models.CharField(max_length=254, validators=[validate_email], null=True, blank=True)
-    national_code = models.IntegerField(unique=True, null=True, blank=True)
+    email = models.CharField(max_length=254, validators=[validate_email], null=True)
+    national_code = models.IntegerField(unique=True, null=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -26,8 +26,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = "User"
-        verbose_name = "user"
-        verbose_name_plural = "users"
+        verbose_name = "کاربر"
+        verbose_name_plural = "کاربران"
 
 
     def __str__(self):

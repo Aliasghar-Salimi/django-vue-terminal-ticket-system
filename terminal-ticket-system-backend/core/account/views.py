@@ -1,9 +1,14 @@
 from django.shortcuts import render
 from account.models import User
-from .serializers import CreateUserSerializer, GroupSerializer, PermissionSerializer, UserSerializer
-from rest_framework import generics, filters
+from .serializers import (GroupSerializer, 
+                          PermissionSerializer, 
+                          UserSerializer,
+                          UserGroupSerializer)
+
+from rest_framework import generics, filters, views, status
 from django.contrib.auth.models import Group, Permission
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.response import Response
 
 class UsersList(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -32,3 +37,5 @@ class PermissionsList(generics.ListAPIView):
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
 
+class UserGroup(generics.CreateAPIView):
+    serializer_class = UserGroupSerializer

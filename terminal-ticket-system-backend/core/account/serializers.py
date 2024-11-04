@@ -57,3 +57,20 @@ class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Permission
         fields = ['id', 'content_type', 'codename', 'name']
+
+class UserGroupSerializer(serializers.Serializer):
+    user_id = serializers.IntegerField()
+    group_id = serializers.IntegerField()
+
+    def create(self, validated_data):
+
+        try:
+            user = User.objects.get(pk=validated_data['user_id'])
+            group = Group.objects.get(pk=validated_data['group_id'])
+        except User.DoesNotExist:
+            raise serializers.ValidationError("User does not exist.")
+        except Group.DoesNotExist:
+            raise serializers.ValidationError("Group does not exist.")
+
+        user.groups.add(group)
+        return {"user_id": user.id, "group_id": group.id}
