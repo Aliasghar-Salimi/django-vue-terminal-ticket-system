@@ -14,7 +14,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=254, validators=[validate_email], null=True, blank=True)
     national_code = models.IntegerField(unique=True, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField()
+    is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     slug = models.SlugField(max_length=255, unique=True)
