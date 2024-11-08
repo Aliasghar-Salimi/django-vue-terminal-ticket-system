@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'vehicles.apps.VehiclesConfig',
     'travels.apps.TravelsConfig',
     'reservations.apps.ReservationsConfig',
+    'validations'
 ]
 
 CORS_ALLOWED_ORIGINS = [

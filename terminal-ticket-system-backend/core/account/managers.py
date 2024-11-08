@@ -1,20 +1,18 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from .validators import phone_validator, password_validator
 import re
+from django.contrib.auth.password_validation import validate_password
 
 
 class CustomUserManager(BaseUserManager):
 
-    def create_user(self, phone_number, password, **extra_fields):
+    def _create_user(self, phone_number, password=None, **extra_fields):
         email = extra_fields.get('email')
-
+        
         if not phone_number:
-            raise ValueError("the phone number must be set")
-        if not password:
-            raise ValueError("the password must be set")
-
+            raise ValueError("شماره تلفن اجباری است")
+                
         extra_fields.setdefault('is_active', True)
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
@@ -24,23 +22,22 @@ class CustomUserManager(BaseUserManager):
             email=email,
             **extra_fields
         )
+        print("manager runs")
 
-        user.set_password(password)
-
+        user.full_clean()
         user.save()
 
         return user
 
-    def create_superuser(self, phone_number, password, **extra_fields):
+    def create_user(self, phone_number, password, **extra_fields):
+        return self._create_user(phone_number, password, **extra_fields)
+
+    def create_superuser(self, phone_number, password=None, **extra_fields):
 
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
 
-        user = self.create_user(phone_number, password, **extra_fields)
-
-        user.save()
-
-        return user
+        return self._create_user(phone_number, password, **extra_fields)
 
         

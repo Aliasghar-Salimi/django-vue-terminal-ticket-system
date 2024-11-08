@@ -2,7 +2,18 @@ from django.contrib.auth import get_user_model
 from djoser.serializers import UserCreateSerializer
 from rest_framework import serializers
 from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.hashers import make_password
 from .models import User
+from django.core.exceptions import ValidationError
+from validations.validations import (contain_at_least_one_lowercase_letter,
+                                          contain_at_least_one_number,
+                                          contain_at_least_one_symbol,
+                                          contain_at_least_one_uppercase_letter,
+                                          no_space_validator,
+                                          min_length_validator,
+                                          white_space_handler,
+                                          no_space_validator
+                                          )
 
 class CreateUserSerializer(UserCreateSerializer):
 
@@ -15,14 +26,37 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'first_name', 'last_name', 'email', 'password', 'phone_number', 'national_code']
         extra_filelds = {'password': {'write_only': True}}
+    
+    def validate(self, attrs):
+
+        attrs['first_name'] = white_space_handler(attrs['first_name'])
+        attrs['last_name'] = white_space_handler(attrs['last_name'])
+
+        return attrs
+    
+    def validate_password(self, password):
+        try:
+            min_length_validator(value=password, min=8)
+            contain_at_least_one_lowercase_letter(password)
+            contain_at_least_one_number(password)
+            contain_at_least_one_symbol(password)
+            contain_at_least_one_uppercase_letter(password)
+            no_space_validator(password)
+        except ValidationError as e:
+            raise serializers.ValidationError(str(e.message))
+        return password
 
     def create(self, validated_data):
-        password = validated_data.pop('password', None)
-        instance = self.Meta.model(**validated_data)
-        if password is not None:
-            instance.set_password(password)
-        instance.save()
-        return instance
+        user = User.objects.create(
+            phone_number=validated_data['phone_number'],
+            national_code=validated_data.get('national_code'),
+            first_name=validated_data.get("first_name"),
+            last_name=validated_data.get("last_name"),
+            email=validated_data.get("email"),
+            password=make_password(validated_data['password'])
+        )
+
+        return user
 
 class GroupSerializer(serializers.ModelSerializer):
 

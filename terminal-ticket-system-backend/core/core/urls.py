@@ -13,7 +13,7 @@ urlpatterns = [
     
     # simple JWT views
     path('api/token/', TokenObtainPairView.as_view(), name='token-obtain-pair'),
-    path('api/token/refrash/', TokenRefreshView.as_view(), name='token-refresh'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
 
     # internal apis
     # path('api-auth/', include('rest_framework.urls')),

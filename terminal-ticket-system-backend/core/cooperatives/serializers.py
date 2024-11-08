@@ -1,23 +1,28 @@
 from rest_framework import serializers
 from .models import Cooperatives
+from validations.validations import white_space_handler
 
 class CooperativesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cooperatives
-        fields = ['id', 'cooperative_manager', 'name', 'registration_code']
+        fields = ['id', 'cooperative_manager', 'name', 'registration_code', 'phone_number', 'email']
         
+    def validate(self, attrs):
+        attrs["name"] = white_space_handler(attrs["name"])
+        names = Cooperatives.objects.values_list('name', flat=True)
+        if attrs['name'] in names:
+            raise serializers.ValidationError({"name": "یک تعاونی با این نام وجود دارد"})
+
+        return attrs 
+     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
         request = self.context.get('request')
         if request and request.method == 'GET':
             self.fields.update({
-                'headquarter_address': serializers.CharField(),
                 'phone_number': serializers.CharField(),
                 'email': serializers.EmailField(),
-                'status': serializers.CharField(),
-                'established_date': serializers.DateField(),
                 'vehicle_count': serializers.IntegerField(),
-                'driver_count': serializers.IntegerField(),
                 'slug': serializers.SlugField(),
             })

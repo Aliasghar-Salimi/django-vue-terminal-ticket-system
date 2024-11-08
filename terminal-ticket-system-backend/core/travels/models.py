@@ -31,8 +31,8 @@ class Cities(models.Model):
 
 class Travels(models.Model):
     cooperative = models.ForeignKey(Cooperatives, on_delete=models.CASCADE, verbose_name="تعاونی")
-    province = models.OneToOneField(Provinces, on_delete=models.CASCADE, verbose_name="استان")
-    city = models.OneToOneField(Cities, on_delete=models.CASCADE, verbose_name="شهر")
+    province = models.ForeignKey(Provinces, on_delete=models.CASCADE, verbose_name="استان")
+    city = models.ForeignKey(Cities, on_delete=models.CASCADE, verbose_name="شهر")
     vehicle = models.ForeignKey(Vehicles, on_delete=models.CASCADE, verbose_name="ماشین")
     departure_time = models.DateTimeField(verbose_name="زمان حرکت")
     ticket_price = models.IntegerField(verbose_name="قیمت بلیط")
@@ -49,5 +49,7 @@ class Travels(models.Model):
     
     def save(self, *args, **kwargs):
         self.total_seats = self.vehicle.capacity
-        self.slug = slugify(f"{self.destination.name}-{self.vehicle.vehicle_type}", allow_unicode=True)
+        import random
+        unique_num = random.randrange(1, 100)
+        self.slug = slugify(f"{unique_num}-{self.province.name}-{self.vehicle.vehicle_type}", allow_unicode=True)
         super(Travels, self).save(*args, **kwargs)
