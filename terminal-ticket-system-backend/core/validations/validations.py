@@ -60,9 +60,8 @@ def licence_plate_validator(value):
     
 def iranian_national_code_validator(value):
     if not value.isdigit() or len(value) != 10:
-        print(value.isdigit())
-        print(len(value))
         raise ValidationError('کد ملی باید 10 رقم باشد')
+    
     check = int(value[9])
     total_sum = sum(int(value[x]) * (10 - x) for x in range(9)) % 11
 
