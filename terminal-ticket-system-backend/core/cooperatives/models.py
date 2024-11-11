@@ -16,8 +16,7 @@ class Cooperatives(models.Model):
     registration_code = models.CharField(verbose_name="کد ثبت رسمی",
                                         max_length=128, 
                                         unique=True, help_text="کد ثبت رسمی تعاونی",
-                                        validators=[no_space_validator,
-                                        iranian_national_code_validator])
+                                        validators=[no_space_validator])
     
     phone_number = models.CharField(verbose_name="شماره تماس", max_length=12,
                                     validators=[iran_phone_validator, 

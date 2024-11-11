@@ -24,14 +24,16 @@ class CreateUserSerializer(UserCreateSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'email', 'password', 'phone_number', 'national_code']
+        fields = ['id', 'first_name', 'last_name', 'email', 'password', 'phone_number', 'national_code', 'role']
         extra_filelds = {'password': {'write_only': True}}
     
     def validate(self, attrs):
+        if 'first_name' in attrs:
+            attrs['first_name'] = white_space_handler(attrs['first_name'])
+        if 'last_name' in attrs:
+            attrs['last_name'] = white_space_handler(attrs['last_name'])
 
-        attrs['first_name'] = white_space_handler(attrs['first_name'])
-        attrs['last_name'] = white_space_handler(attrs['last_name'])
-
+        
         return attrs
     
     def validate_password(self, password):
@@ -53,7 +55,8 @@ class UserSerializer(serializers.ModelSerializer):
             first_name=validated_data.get("first_name"),
             last_name=validated_data.get("last_name"),
             email=validated_data.get("email"),
-            password=make_password(validated_data['password'])
+            password=make_password(validated_data['password'],),
+            role=validated_data['role']
         )
 
         return user

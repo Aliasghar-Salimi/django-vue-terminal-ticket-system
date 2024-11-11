@@ -173,6 +173,7 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=60),
+    'UPDATE_LAST_LOGIN': True,
     'SIGNING_KEY': 'hUQnABTQfe38uRu05JZ849UedeVwPzCj',
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),

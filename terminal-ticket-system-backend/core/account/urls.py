@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import UserDetail, GroupsList, PermissionsList, GroupDetail, UsersList, UserGroup
+from .views import UserDetail, GroupsList, PermissionsList, GroupDetail, UsersList, UserGroup, ManagersList
 
 urlpatterns = [
     path('users/', UsersList.as_view(), name='users'),
+    path('managers/', ManagersList.as_view(), name='managers'),
     path('user/<slug:slug>/', UserDetail.as_view(), name='user-detail'),
     path('groups/', GroupsList.as_view(), name='groups'),
     path('group/<name>/', GroupDetail.as_view(), name='group'),
