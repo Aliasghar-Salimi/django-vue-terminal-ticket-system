@@ -89,3 +89,4 @@ notes.txt
 .venv
 .env
 db.sqlite3
+documents/
