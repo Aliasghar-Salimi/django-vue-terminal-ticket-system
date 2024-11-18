@@ -5,7 +5,7 @@ from .seatModel import Seats
 class TravelsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Travels
-        fields = ['cooperative', 'vehicle', 'departure_time', 'ticket_price', 'province', 'city']
+        fields = ['id', 'cooperative', 'vehicle', 'departure_time', 'ticket_price', 'province', 'city']
     
 class ProvincesSerializer(serializers.ModelSerializer):
     class Meta:

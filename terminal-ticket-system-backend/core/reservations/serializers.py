@@ -1,8 +1,10 @@
 from rest_framework import serializers
-from .models import Reservations
+from rest_framework.response import Response
+from .models import Reservations, Cancelations
 from travels.seatModel import Seats
 from django.db import transaction
 from validations.validations import white_space_handler
+from travels.models import Travels
 
 class ReservationsSerializer(serializers.ModelSerializer):
     seats = serializers.ListField(
@@ -93,3 +95,27 @@ class ReservationDetailSerializer(serializers.ModelSerializer):
             instance.save()
 
         return instance
+        
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        reserved_seats = instance.seats.filter(reservation=instance)
+        data['reserved_seats'] = [seat.seat_number for seat in reserved_seats]
+        return data
+
+
+class CancelationsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Cancelations
+        fields = ['id', 'reservation', 'date', 'returned_amount', 'slug']
+        read_only_fields = ['returned_amount', 'slug']
+
+    def create(self, validated_data):
+        reservation = validated_data['reservation']
+        travel = reservation.travel
+        validated_data['returned_amount'] = travel.ticket_price * 30/100
+        cancelation = Cancelations.objects.create(**validated_data)
+        
+        Seats.objects.filter(reservation=validated_data['reservation']).update(status=False, reservation=None)
+
+        return cancelation

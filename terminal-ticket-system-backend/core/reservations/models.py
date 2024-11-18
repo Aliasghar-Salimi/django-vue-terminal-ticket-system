@@ -30,10 +30,29 @@ class Reservations(models.Model):
         verbose_name_plural = 'رزروها'
 
     def __str__(self):
-        return self.tracking_code
+        return str(self.tracking_code)
     
     def save(self, *args, **kwagrs):
         if not self.tracking_code:
             self.tracking_code = random.randrange(100000, 999999)
             self.slug = slugify(self.tracking_code)
         super(Reservations, self).save(*args, **kwagrs)
+
+
+class Cancelations(models.Model):
+    reservation = models.OneToOneField(Reservations, on_delete=models.CASCADE, verbose_name="رزرو مربوطه", related_name="reservation")
+    date = models.DateTimeField(verbose_name="تاریخ کنسلی", auto_now=True)
+    returned_amount = models.IntegerField(verbose_name="مبلغ بازگشتی")
+    slug = models.SlugField(verbose_name="اسلاگ", unique=True)
+
+    class Meta:
+        db_table = "Cancelation"
+        verbose_name = "کنسلی"
+        verbose_name_plural = "کنسلی‌ها"
+
+    def __str__(self):
+        return self.reservation.travel.slug
+    
+    def save(self, *args, **kwargs):
+        self.slug = self.reservation.tracking_code
+        super(Cancelations, self).save(*args, **kwargs)

@@ -15,5 +15,5 @@ class Seats(models.Model):
         verbose_name_plural = 'صندلی‌ها'
 
     def __str__(self):
-        return self.seat_number
+        return str(self.seat_number)
     
