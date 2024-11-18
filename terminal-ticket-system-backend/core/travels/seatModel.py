@@ -1,13 +1,15 @@
 from django.db import models
 from .models import Travels
-from reservations.models import Reservations
+
 
 class Seats(models.Model):
-    seat_number = models.SmallIntegerField(verbose_name="شماره صندلی")
-    reservation = models.ForeignKey(Reservations, on_delete=models.SET_NULL, null=True, verbose_name="رزرو مرطه")
+    reservation = models.ForeignKey('reservations.Reservations', on_delete=models.SET_NULL, null=True, blank=True, related_name="seats", verbose_name="رزرو مربوطه")
     travel = models.ForeignKey(Travels, on_delete=models.CASCADE, verbose_name="سفر مربوطه")
+    seat_number = models.SmallIntegerField(verbose_name="شماره صندلی")
+    status = models.BooleanField(default=0)
 
-    class Meta:
+
+    class Meta: 
         db_table = 'Seat'
         verbose_name = 'صندلی'
         verbose_name_plural = 'صندلی‌ها'

@@ -4,7 +4,7 @@ from validations.validations import (iran_phone_validator, required_validator, n
                                      just_letter_validator, iranian_national_code_validator)
 from django.utils.text import slugify
 import random
-# from validations.validations import 
+from travels.seatModel import Seats
 from django.core.validators import MinLengthValidator
 
 class Reservations(models.Model):
@@ -21,7 +21,7 @@ class Reservations(models.Model):
                                                        no_space_validator])
     leader_national_code = models.CharField(max_length=10, verbose_name="کدملی سرپرست", 
                                             validators=[iranian_national_code_validator])
-    tracking_code = models.IntegerField(verbose_name="کد رهگیری", unique=True)
+    tracking_code = models.IntegerField(verbose_name="کد رهگیری", unique=True, editable=False)
     slug = models.SlugField(verbose_name="اسلاگ", unique=True)
 
     class Meta:
@@ -33,6 +33,7 @@ class Reservations(models.Model):
         return self.tracking_code
     
     def save(self, *args, **kwagrs):
-        self.tracking_code = random.randrange(100000, 999999)
-        self.slug = slugify(self.tracking_code)
+        if not self.tracking_code:
+            self.tracking_code = random.randrange(100000, 999999)
+            self.slug = slugify(self.tracking_code)
         super(Reservations, self).save(*args, **kwagrs)

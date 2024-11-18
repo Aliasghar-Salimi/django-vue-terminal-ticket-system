@@ -3,7 +3,6 @@ from django.utils.text import slugify
 from cooperatives.models import Cooperatives
 from vehicles.models import Vehicles
 
-
 class Provinces(models.Model):
     name = models.CharField(max_length=255, verbose_name="نام استان")
 
@@ -30,6 +29,7 @@ class Cities(models.Model):
 
 
 class Travels(models.Model):
+    id = models.AutoField(primary_key=True, null=False, blank=False, unique=True)
     cooperative = models.ForeignKey(Cooperatives, on_delete=models.CASCADE, verbose_name="تعاونی")
     province = models.ForeignKey(Provinces, on_delete=models.CASCADE, verbose_name="استان")
     city = models.ForeignKey(Cities, on_delete=models.CASCADE, verbose_name="شهر")
@@ -45,11 +45,19 @@ class Travels(models.Model):
         verbose_name_plural = "سفرها"
 
     def __str__(self):
-        return f"{str(self.destination)}-{str(self.departure_time)}"
+        return f"{str(self.province)}-{str(self.departure_time)}"
     
     def save(self, *args, **kwargs):
         self.total_seats = self.vehicle.capacity
         import random
-        unique_num = random.randrange(1, 100)
-        self.slug = slugify(f"{unique_num}-{self.province.name}-{self.vehicle.vehicle_type}", allow_unicode=True)
+
+        if not self.slug:
+            is_unique = False
+            while not is_unique:
+                rand_num = random.randint(1, 100)
+                the_slug = slugify(f"{rand_num}-{self.province.name}-{self.vehicle.vehicle_type}", allow_unicode=True)
+                is_unique = not Travels.objects.filter(slug=the_slug).exists()
+                
+            self.slug = the_slug
+            
         super(Travels, self).save(*args, **kwargs)

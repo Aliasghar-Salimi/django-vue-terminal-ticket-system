@@ -1,6 +1,6 @@
 from rest_framework import generics, filters, permissions
 from .models import Reservations
-from .serializers import ReservationsSerializer 
+from .serializers import ReservationsSerializer, ReservationDetailSerializer
 
 class ReservationsList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -13,5 +13,5 @@ class ReservationDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     lookup_field = 'slug'
     queryset = Reservations.objects.all()
-    serializer_class = ReservationsSerializer
+    serializer_class = ReservationDetailSerializer
     

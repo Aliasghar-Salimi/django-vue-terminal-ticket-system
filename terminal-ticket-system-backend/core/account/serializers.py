@@ -66,7 +66,7 @@ class GroupSerializer(serializers.ModelSerializer):
     permissions = serializers.PrimaryKeyRelatedField(
         queryset=Permission.objects.all(),
         many=True,
-        required=False
+        required=True
     )
 
     class Meta:

@@ -8,10 +8,12 @@ class CooperativesSerializer(serializers.ModelSerializer):
         fields = ['id', 'cooperative_manager', 'name', 'registration_code', 'phone_number', 'email']
         
     def validate(self, attrs):
-        attrs["name"] = white_space_handler(attrs["name"])
-        names = Cooperatives.objects.values_list('name', flat=True)
-        if attrs['name'] in names:
-            raise serializers.ValidationError({"name": "یک تعاونی با این نام وجود دارد"})
+
+        if 'name' in attrs:
+            attrs["name"] = white_space_handler(attrs["name"])
+            names = Cooperatives.objects.values_list('name', flat=True)
+            if attrs['name'] in names:
+                raise serializers.ValidationError({"name": "یک تعاونی با این نام وجود دارد"})
 
         return attrs 
      
