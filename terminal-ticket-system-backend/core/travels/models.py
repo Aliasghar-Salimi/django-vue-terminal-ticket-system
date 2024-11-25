@@ -29,12 +29,18 @@ class Cities(models.Model):
 
 
 class Travels(models.Model):
+    status_choices = [('تعریف شده', "defined"),
+                      ('درحال انجام', "in proccess"),
+                      ('انجام شده', "done")]
+    
     id = models.AutoField(primary_key=True, null=False, blank=False, unique=True)
     cooperative = models.ForeignKey(Cooperatives, on_delete=models.CASCADE, verbose_name="تعاونی")
     province = models.ForeignKey(Provinces, on_delete=models.CASCADE, verbose_name="استان")
     city = models.ForeignKey(Cities, on_delete=models.CASCADE, verbose_name="شهر")
     vehicle = models.ForeignKey(Vehicles, on_delete=models.CASCADE, verbose_name="ماشین")
     departure_time = models.DateTimeField(verbose_name="زمان حرکت")
+    return_time = models.DateTimeField(verbose_name="زمان برگشت")
+    status = models.CharField(choices=status_choices, max_length=255, default='defined')
     ticket_price = models.IntegerField(verbose_name="قیمت بلیط")
     total_seats = models.SmallIntegerField(verbose_name="تعداد کل صندلی‌ها")
     slug = models.SlugField(verbose_name="اسلاگ", unique=True, max_length=255)
