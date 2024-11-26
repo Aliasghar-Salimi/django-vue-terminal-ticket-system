@@ -26,6 +26,14 @@ class TravelDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TravelsSerializer
     lookup_field = "slug"
 
+class SeatMap(generics.ListAPIView):
+    serializer_class = SeatsSerializer
+
+    def get_queryset(self):
+            travel_id = self.kwargs['travel_id']
+            return Seats.objects.filter(travel_id=travel_id)
+
+
 class SeatsList(generics.ListAPIView):
     queryset = Seats.objects.all()
     serializer_class = SeatsSerializer
