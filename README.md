@@ -1,4 +1,4 @@
-# Django Cooperative Terminal Reservation System
+# Terminal management system
 
 This project is a RESTful application designed for managing terminal cooperatives and their associated operations, such as vehicle management, travel planning, and ticket reservations.
 
