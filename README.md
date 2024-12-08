@@ -29,7 +29,7 @@ This project is a RESTful application designed for managing terminal cooperative
         pip install -r requirements.txt
   
 
-- 3- Applay migrations and create a superuser (using phone and password): <br><br>
+- 3- Applay migrations and create a superuser (using phone number and password): <br><br>
     ```bash  
         python3 manage.py migrate
         python3 manage.py createsuperuser
